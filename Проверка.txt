@@ -1,0 +1,6 @@
+valid.xml: ПРОШЁЛ | ожидаемо
+no-valid-1.xml: НЕ ПРОШЁЛ | ожидаемо | Element 'person': Duplicate key-sequence ['P1'] in key identity-constraint 'personIdKey'.
+no-valid-2.xml: НЕ ПРОШЁЛ | ожидаемо | Element 'person': No match found for key-sequence ['O3'] of keyref 'personOfficeRef'.
+no-valid-3.xml: НЕ ПРОШЁЛ | ожидаемо | Element 'phone', attribute 'type': [facet 'enumeration'] The value 'mobile' is not an element of the set {'work', 'home'}.
+no-valid-4.xml: НЕ ПРОШЁЛ | ожидаемо | Element 'phone': [facet 'pattern'] The value '987-65-430' is not accepted by the pattern '[0-9]{3}-[0-9]{2}-[0-9]{2}'.
+no-valid-5.xml: НЕ ПРОШЁЛ | ожидаемо | Element 'index': [facet 'pattern'] The value '1234567' is not accepted by the pattern '[0-9]{6}'.

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="PostIndexType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{6}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PhoneNumberType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{3}-[0-9]{2}-[0-9]{2}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PhoneKindType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="work"/>
+      <xs:enumeration value="home"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="notebook">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="offices">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="office" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="code" type="xs:string" use="required"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="person" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="first" type="xs:string"/>
+                    <xs:element name="surname" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="address">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="city" type="xs:string"/>
+                    <xs:element name="street" type="xs:string"/>
+                    <xs:element name="index" type="PostIndexType"/>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="phones">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="phone" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="PhoneNumberType">
+                            <xs:attribute name="type" type="PhoneKindType" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="office" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:key name="officeCodeKey">
+      <xs:selector xpath="offices/office"/>
+      <xs:field xpath="@code"/>
+    </xs:key>
+    <xs:key name="personIdKey">
+      <xs:selector xpath="person"/>
+      <xs:field xpath="@id"/>
+    </xs:key>
+    <xs:keyref name="personOfficeRef" refer="officeCodeKey">
+      <xs:selector xpath="person"/>
+      <xs:field xpath="@office"/>
+    </xs:keyref>
+  </xs:element>
+</xs:schema>
